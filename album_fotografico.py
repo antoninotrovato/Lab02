@@ -3,30 +3,53 @@ def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
+            reader = csv.DictReader(f, skipinitialspace=True)
             album = []
-            for row in reader:
-                album.append(row)
+            for riga in reader:
+                album.append(riga)
             return album
     except FileNotFoundError:
-        print("None")
-        return
+        return None
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
-   if
-   try:
-       with open(file_path, "r", encoding="utf-8") as f:
-   except
+    try:
+       if int(mese)<1 or int(mese)>12:
+           return None
+       for foto in album:
+            if foto["codice"] == codice:
+                return None
+       with open(file_path, "a", encoding="utf-8") as f:
+           foto = {"codice": codice, "titolo": titolo, "autore": autore, "mese":mese, "anno":anno}
+           album.append(foto)
+           f.write(f"{codice},{titolo},{autore},{mese},{anno}\n")
+           return foto
+    except FileNotFoundError:
+       return None
 
 def cerca_foto(album, codice):
-    """Cerca una foto nell'album dato il codice"""
-    # TODO
+    for foto in album:
+        if foto["codice"] == codice:
+            risultato = (f"{codice}, {foto['titolo']}, {foto['autore']}, {foto['mese']}, {foto['anno']}")
+            return risultato
+    return None
+
 
 
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    # TODO
+    k = 0
+    listatitoli = list()
+    for foto in album:
+        if int(foto["anno"]) == anno:
+            listatitoli.append(foto["titolo"])
+            k = 1
+    if k == 0:
+        return None
+    lista_ordinata = sorted(listatitoli)
+    return lista_ordinata
+
+
 
 
 def main():
